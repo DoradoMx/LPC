@@ -4,7 +4,7 @@
 * **Jesus Dorado** - **1743095** - [DoradoMX](https://github.com/DoradoMx)
 
 ## PIA - Repositorio en GitHub
-## Instrucciones
+### Instrucciones
 Utilizando su cuenta de GitHub el alumno deberá publicar un repositorio con el siguiente contenido:
 
 * **README**: Deberá contener la información del repositorio, una breve descripción de cada uno de los scripts y/o documentos que componen el repositorio.
@@ -16,7 +16,7 @@ Utilizando su cuenta de GitHub el alumno deberá publicar un repositorio con el 
 * El script de escaner de puertos de la Tarea6
 * El script de Python con sus ajustes de la Tarea 8.
 
-## Construido con 🛠️
+### Construido con 🛠️
 
 _Python_
 _Powershell_
@@ -27,9 +27,9 @@ _Bash_
 * [Bash](https://es.wikipedia.org/wiki/Bash) - Información acerca de Bash
 
 
-## Expresiones de Gratitud 🎁
+### Expresiones de Gratitud 🎁
 
-* Queremos agradecer al profesor Gerardo Bernal por la clase impartida 📢
+* Sobre todo, agradecer al profesor Gerardo Bernal por la clase impartida 📢
 
 ---
 
