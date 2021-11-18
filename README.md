@@ -31,5 +31,17 @@ _Bash_
 
 * Sobre todo, agradecer al profesor Gerardo Bernal por la clase impartida 📢
 
+### Comentarios
+* En la tarea 4 - Web Scrapping
+
+_Subí como primer archivo el entregado en Teams, pero aqui en replit hice un commit para actualizar la versión a una mejorada que edité después de haber entragado la tarea a tiempo, ambos funcionan, pero la salida del script actualizado al archivo CSV es más fácil de leer_
+
+* En la tarea 8 - Creación de ejecutables
+
+_Iba a usar el Icono que esta dentro de esta misma carpeta
+Según entendí el ejecutable solo es un solo archivo
+Pero como no estoy 100% seguro y la última clase 
+me dijo que necesitaba todas las carpetas, por eso adjunto todo._
+
 ---
 
