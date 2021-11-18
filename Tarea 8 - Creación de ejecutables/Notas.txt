@@ -1,0 +1,8 @@
+Iba a usar el Icono que esta dentro de esta misma carpeta
+Según entendí el ejecutable solo es un solo archivo
+Pero como no estoy 100% seguro y la última clase 
+me dijo que necesitaba todas las carpetas, por eso adjunto todo.
+
+Como quiera si me puede responder si son necesarios 
+todos los directorioso solo con el .exe funcina
+en los comentarios de esta actividad le agradecería mucho!

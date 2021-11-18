@@ -1,0 +1,151 @@
+﻿# Tarea 2 Powershell
+#
+# Elaborado por: Jesus Alejandro Garcia Dorado
+# Matricula: 1743095
+# Fecha: 16/10/2021
+#
+
+Function mostrarMenu {
+    Clear-Host
+    Write-Host "MENU DE ESCANEOS..."
+    Write-Host "1. Toda la subred"
+    Write-Host "2. Puertos para un equipo o direccion IP"
+    Write-Host "3. Todos los equipos que estén activos en la red"
+    Write-Host "4. Salir"
+}
+
+
+
+Function scanPort {
+    
+    $portstoscan = @(1..500) #Lo limite a 500 para que no demorara tanto
+    $waittime = 100
+
+# Solicitamos direccion ip a escanear
+
+    Write-Host "Direccion ip a escanear: " -NoNewline
+    $direccion = Read-Host
+
+    foreach ($p in $portstoscan)
+    {
+        $TCPObject = New-Object System.Net.Sockets.TcpClient
+            try{ $resultado = $TCPObject.ConnectAsync($direccion,$p).Wait($waittime)}catch{}
+            if ($resultado -eq "True")
+            {
+                Write-Host "Puerto abierto: " -NoNewline; Write-Host $p -ForegroundColor Green
+            }
+    }
+
+}
+Function escaneoRedes {
+    
+}
+
+mostrarMenu
+$scanRealizado = $false
+$redes = @()
+ 
+while(($opcion= Read-Host -Prompt "Opcion elegida") -ne "4"){
+ 
+switch($opcion){
+        1 {
+            Clear-Host
+            Write-Host "------------------------------------";
+            Write-Host "Escaneo de toda la subred"; 
+            Write-Host "------------------------------------";
+            #INICIA EL PROCESO
+            #Determinando el Gateway
+            $subred = (Get-NetRoute -DestinationPrefix 0.0.0.0/0).NextHop
+
+
+            #Obteniendo el rango de la subred interna
+            $rango = $subred.Substring(0,$subred.IndexOf(".")+1 + $subred.Substring($subred.IndexOf(".")+1).IndexOf(".")+3)
+            Write-Host "== Determinando tu rango de subred ..."
+            echo $rango
+            
+            $punto = $rango.EndsWith(".")
+            if ($punto -like "False")
+            {
+                $rango = $rango + "." #Agregamos el punto al final en caso de que no estuviera
+            }
+            
+            ## Creamos un array con 254 numeros y se almacenan en $rango_ip
+            
+            $rango_ip = @(1..254)
+            
+            # Generamos un rango foreach para validar host activos en nuestra subred
+            
+            Write-Output ""
+            Write-Host "-- Subred actual:"
+            Write-Host "Escaneando: " -NoNewline ; Write-Host $rango -NoNewline ; Write-Host "0-254" -ForegroundColor Red
+            Write-Output ""
+            
+            foreach ($r in $rango_ip)
+            {
+                $actual = $rango + $r #genera la direccion ip
+                $responde = Test-Connection $actual -Quiet -Count 1 #Validamos coneccion contra ip en $actual
+                if ($responde -eq "True")
+                {
+                    Write-Output ""
+                    Write-Host " Host responde: " -NoNewline; Write-Host $actual -ForegroundColor Green
+                    $redes += $actual
+                }
+            }
+            #FIN DEL PROCESO
+            $scanRealizado = $true
+            Read-Host -Prompt "Presiona una enter para continuar:..."
+            break
+        }
+        2 {
+            Clear-Host
+            Write-Host "------------------------------------";
+            Write-Host "Escaneo de puertos para un Equipo o direccion IP";
+            Write-Host "------------------------------------";
+            scanPort
+            Read-Host -Prompt "Presiona enter para continuar:..."
+            break
+        }
+        3 {
+            Clear-Host
+            Write-Host "------------------------------------";
+            Write-Host "Escanear puertos para todos los equipos activos en la Red";
+            Write-Host "------------------------------------"; 
+            # Este paso necesita ser ejecutado despues de la opcion 1 para funcionar
+            if ($scanRealizado){
+                Write-Output "Escaneo en proceso..."
+                foreach($redActiva in $redes)
+                {
+                        $portstoscan = @(1..500) #Lo limite a 500 para que no demorara tanto
+                $waittime = 100
+            
+            # Solicitamos direccion ip a escanear
+            
+                Write-Host "Direccion ip a escanear: " -NoNewline
+                $direccion = $redActiva
+            
+                foreach ($p in $portstoscan)
+                {
+                    $TCPObject = New-Object System.Net.Sockets.TcpClient
+                        try{ $resultado = $TCPObject.ConnectAsync($direccion,$p).Wait($waittime)}catch{}
+                        if ($resultado -eq "True")
+                        {
+                            Write-Host "Puerto abierto: " -NoNewline; Write-Host $p -ForegroundColor Green
+                        }
+                }
+                }
+                Write-Host $redes
+            }
+            else{
+                Write-Host -ForegroundColor white -BackgroundColor red "Ejecuta el escaneo de la subred antes"
+            }
+
+            Read-Host -Prompt "Presiona enter para continuar:..."
+            break
+            }
+        4 {"Salir"; break}
+        default {Write-Host -ForegroundColor white -BackgroundColor red "Por favor ingresar una opción válida";Read-Host -Prompt "Presiona enter para continuar:..."}
+        
+    }
+ 
+mostrarMenu
+}
